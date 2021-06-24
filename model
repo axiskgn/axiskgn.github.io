@@ -1,4 +1,110 @@
 {
     "id": "https://axiskgn.github.io/model#",
-    "$schema": "https://axiskgn.github.io//schema#"
+    "$schema": "https://axiskgn.github.io/schema#",
+    "title": "test data model schema",
+    "definitions": {
+      "Company": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "Name"]
+      },
+      "Product": {
+       "type": "object",
+       "properties": {
+         "id": {
+           "type": "string"
+         },
+         "Name": {
+           "type": "string"
+         },
+         "Company_Id": {
+           "type": "string",
+           "relation": "Company"
+         }
+       },
+       "required": ["id", "Name", "Company_id"]
+      },
+      "Order": {
+       "type": "object",
+       "properties": {
+         "id": {
+           "type": "string"
+         },
+         "Date": {
+           "type": "string",
+           "format": "date-time"
+         },
+         "DeliveryAddres": {
+           "type": "string"
+         },
+         "Company_Id": {
+           "type": "string",
+           "relation": "Company"
+         }
+       },
+       "required": ["id", "Date", "Company_id", "DeliveryAddres"]
+      },
+      "OrderItem": {
+       "type": "object",
+       "properties": {
+         "id": {
+           "type": "string"
+         },
+         "Price": {
+           "type": "number"
+         },
+         "DeliveryAddres": {
+           "type": "number"
+         },
+         "Product_Id": {
+           "type": "string",
+           "relation": "Product"
+         },
+         "Order_Id": {
+           "type": "string",
+           "relation": "Order"
+         }
+       },
+       "required": ["id", "Date", "Company_id", "DeliveryAddres"]
+      }
+    },
+    "relations": [
+      {
+        "name": "Product_Company",
+        "Entity1": "#/definitions/Product",
+        "Entity2": "#/definitions/Company",
+        "Field": "Company_Id"
+      },
+      {
+        "name": "Order_Company",
+        "Entity1": "#/definitions/Order",
+        "Entity2": "#/definitions/Company",
+        "Field": "Company_Id"
+      },
+      {
+        "name": "OrderItem_Order",
+        "Entity1": "#/definitions/OrderItem",
+        "Entity2": "#/definitions/Order",
+        "Field": "Order_Id"
+      },
+      {
+        "name": "OrderItem_Product",
+        "Entity1": "#/definitions/OrderItem",
+        "Entity2": "#/definitions/Product",
+        "Field": "Product_Id"
+      },
+    ]
+    "oneOf": [
+      { "$ref": "#/definitions/Company"},
+      { "$ref": "#/definitions/Product"},
+      { "$ref": "#/definitions/Order"},
+      { "$ref": "#/definitions/OrderItem"},
+    ]
 }
